@@ -1,27 +1,26 @@
-import React, {useState} from "react";
-import './navbar.css';
+import React, { useState } from "react";
+import "./navbar.css";
 
 const Navbar = () => {
+  // const [clicked, setClicked] = useState(false);
 
-	// const [clicked, setClicked] = useState(false);
+  // const handleClick = e =>{
+  // 	setClicked(clk => !clk);
+  // 	const dd = document.querySelector("#pclick");
+  // 	dd.classList.toggle('hidden');
+  // }
 
-	// const handleClick = e =>{
-	// 	setClicked(clk => !clk);
-	// 	const dd = document.querySelector("#pclick");
-	// 	dd.classList.toggle('hidden');
-	// }
+  const handleMouse = (e) => {
+    const dd = document.querySelector("#pclick");
+    dd.classList.remove("hidden");
+  };
 
-	const handleMouse = e =>{
-		const dd = document.querySelector("#pclick");
-		dd.classList.remove('hidden');
-	}
-
-	const mouseOut = e => {
-		const dd = document.querySelector("#pclick");
-		setTimeout(function(){
-			dd.classList.add('hidden');
-		}, 2000);
-	}
+  const mouseOut = (e) => {
+    const dd = document.querySelector("#pclick");
+    setTimeout(function () {
+      dd.classList.add("hidden");
+    }, 2000);
+  };
 
   return (
     // <div className='p-4 w-full bg-slate-800 text-white text-lg'>Navbar</div>
@@ -37,14 +36,14 @@ const Navbar = () => {
               aria-expanded="false"
             >
               <span className="sr-only">Open main menu</span> */}
-              {/* <!--
+            {/* <!--
             Icon when menu is closed.
 
             Heroicon name: outline/bars-3
 
             Menu open: "hidden", Menu closed: "block"
           --> */}
-              {/* <svg
+            {/* <svg
                 className="block h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -59,14 +58,14 @@ const Navbar = () => {
                   d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                 />
               </svg> */}
-              {/* <!--
+            {/* <!--
             Icon when menu is open.
 
             Heroicon name: outline/x-mark
 
             Menu open: "block", Menu closed: "hidden"
           --> */}
-              {/* <svg
+            {/* <svg
                 className="hidden h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -83,17 +82,17 @@ const Navbar = () => {
               </svg>
             </button> */}
           </div>
-		  <div className="flex flex-shrink-0 items-center">
-              <img
-                className="block h-8 w-auto lg:hidden"
-                src="https://img.icons8.com/ultraviolet/512/duolingo-logo.png"
-                alt="Your Company"
-              />
-              <img
-                className="hidden h-8 w-auto lg:block"
-                src="https://img.icons8.com/ultraviolet/512/duolingo-logo.png"
-                alt="Your Company"
-              />
+          <div className="flex flex-shrink-0 items-center">
+            <img
+              className="block h-8 w-auto lg:hidden"
+              src="https://img.icons8.com/ultraviolet/512/duolingo-logo.png"
+              alt="Your Company"
+            />
+            <img
+              className="hidden h-8 w-auto lg:block"
+              src="https://img.icons8.com/ultraviolet/512/duolingo-logo.png"
+              alt="Your Company"
+            />
           </div>
           <div className="flex flex-1 items-stretch md:items-center justify-start">
             <div className="hidden sm:ml-6 sm:block">
@@ -163,8 +162,8 @@ const Navbar = () => {
                   id="user-menu-button"
                   aria-expanded="false"
                   aria-haspopup="true"
-				  onMouseEnter={handleMouse}
-				  onMouseLeave={mouseOut}
+                  onMouseEnter={handleMouse}
+                  onMouseLeave={mouseOut}
                 >
                   <span className="sr-only">Open user menu</span>
                   <img
@@ -185,13 +184,13 @@ const Navbar = () => {
               From: "transform opacity-100 scale-100"
               To: "transform opacity-0 scale-95"
           --> */}
-		  	  
+
               <div
-			    onMouseEnter={handleMouse}
-				onMouseLeave={mouseOut}
+                onMouseEnter={handleMouse}
+                onMouseLeave={mouseOut}
                 className="absolute hidden bg-[#862626] p-1 right-0 z-10 w-48 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-				id="pclick"
-				role="menu"
+                id="pclick"
+                role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="user-menu-button"
                 tabindex="-1"
@@ -225,7 +224,6 @@ const Navbar = () => {
                   Sign out
                 </a>
               </div>
-
             </div>
           </div>
         </div>

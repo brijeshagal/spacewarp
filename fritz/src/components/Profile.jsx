@@ -6,7 +6,7 @@ const Profile = () => {
       <div className="container text-white  mx-auto p-20 lg:w-5/6 flex flex-row justify-center bg-pink-600 bg-opacity-10 z-[100]">
         <div className="flex flex-col justfy-center">
           <div className="flex flex-row justify-center">
-            <img src="https://img.icons8.com/ultraviolet/512/duolingo-logo.png" className="h-48"/>
+            <img src="https://img.icons8.com/ultraviolet/512/duolingo-logo.png" className="h-48" alt="Profile"/>
             <div className="container px-8 py-4"> Hello</div>
           </div>
           <div className="container">

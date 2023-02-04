@@ -1,7 +1,49 @@
 import React, { useState } from "react";
 import "./navbar.css";
+import { useAccount, useConnect, useEnsName, useDisconnect } from "wagmi";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
+  const { address, isConnected } = useAccount();
+
+    // TODO: Wallaby does not support ENS. Need a separate Ethereu provider to useEnsName
+    // const { data: ensName } = useEnsName({ address });
+    const { disconnect } = useDisconnect({
+        onSuccess() {
+            toast("Account disconnected!", {
+                style: {
+                    border: "2px solid #000",
+                },
+            });
+        },
+        onError() {
+            toast.error("Failed to disconnect account!", {
+                style: {
+                    border: "2px solid #000",
+                },
+            });
+        },
+    });
+    const { connect } = useConnect({
+        chainId: 31415,
+        connector: new InjectedConnector(),
+        onSuccess() {
+            toast.success("Account connected!", {
+                style: {
+                    border: "2px solid #000",
+                },
+            });
+        },
+        onError() {
+            toast.error("Error connecting account!", {
+                style: {
+                    border: "2px solid #000",
+                },
+            });
+        },
+    });
+
   // const [clicked, setClicked] = useState(false);
 
   // const handleClick = e =>{
@@ -184,7 +226,7 @@ const Navbar = () => {
               From: "transform opacity-100 scale-100"
               To: "transform opacity-0 scale-95"
           --> */}
-
+            {isConnected?
               <div
                 onMouseEnter={handleMouse}
                 onMouseLeave={mouseOut}
@@ -193,28 +235,28 @@ const Navbar = () => {
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="user-menu-button"
-                tabindex="-1"
+                tabIndex="-1"
               >
                 {/* <!-- Active: "bg-gray-100", Not Active: "" --> */}
                 <a
                   href="/"
                   className="block px-4 py-2 text-sm text-gray-300 hover:bg-[#6b2828]"
                   role="menuitem"
-                  tabindex="-1"
+                  tabIndex="-1"
                   id="user-menu-item-0"
                 >
-                  Your Profile
+                  {address.slice(0,8)+"..."+address.slice(-5)}
                 </a>
                 <a
                   href="/"
                   className="block px-4 py-2 text-sm text-gray-300 hover:bg-[#6b2828]"
                   role="menuitem"
-                  tabindex="-1"
+                  tabIndex="-1"
                   id="user-menu-item-1"
                 >
-                  Settings
+                  Your Profile
                 </a>
-                <a
+                {/* <a
                   href="/"
                   className="block px-4 py-2 text-sm text-gray-300 hover:bg-[#6b2828]"
                   role="menuitem"
@@ -222,9 +264,9 @@ const Navbar = () => {
                   id="user-menu-item-2"
                 >
                   Sign out
-                </a>
-              </div>
-            </div>
+                </a> */}
+              </div>:<div className="">Connect Button</div>
+            }</div>
           </div>
         </div>
       </div>

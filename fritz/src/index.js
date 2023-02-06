@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./App";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-
 const fvmChain = {
   id: 3141,
   name: "Filecoin — Hyperspace testnet",
@@ -42,11 +41,12 @@ if (typeof window !== "undefined") {
     webSocketProvider,
   });
 }
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <WagmiConfig client={client}>
-      <App />
+      <App provider={provider}/>
     </WagmiConfig>
   </React.StrictMode>
 );

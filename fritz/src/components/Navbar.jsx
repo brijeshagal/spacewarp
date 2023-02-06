@@ -3,46 +3,49 @@ import "./navbar.css";
 import { useAccount, useConnect, useEnsName, useDisconnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import toast from "react-hot-toast";
+import logo from "../logo.svg";
 
-const Navbar = () => {
+const Navbar = ({ setUser }) => {
   const { address, isConnected } = useAccount();
-
-    // TODO: Wallaby does not support ENS. Need a separate Ethereu provider to useEnsName
-    // const { data: ensName } = useEnsName({ address });
-    const { disconnect } = useDisconnect({
-        onSuccess() {
-            toast("Account disconnected!", {
-                style: {
-                    border: "2px solid #000",
-                },
-            });
+  if (isConnected) {
+    setUser(address);
+  }
+  // TODO: Wallaby does not support ENS. Need a separate Ethereum provider to useEnsName
+  // const { data: ensName } = useEnsName({ address });
+  const { disconnect } = useDisconnect({
+    onSuccess() {
+      toast("Account disconnected!", {
+        style: {
+          border: "2px solid #000",
         },
-        onError() {
-            toast.error("Failed to disconnect account!", {
-                style: {
-                    border: "2px solid #000",
-                },
-            });
+      });
+    },
+    onError() {
+      toast.error("Failed to disconnect account!", {
+        style: {
+          border: "2px solid #000",
         },
-    });
-    const { connect } = useConnect({
-        chainId: 5,
-        connector: new InjectedConnector(),
-        onSuccess() {
-            toast.success("Account connected!", {
-                style: {
-                    border: "2px solid #000",
-                },
-            });
+      });
+    },
+  });
+  const { connect } = useConnect({
+    chainId: 3141,
+    connector: new InjectedConnector(),
+    onSuccess() {
+      toast.success("Account connected!", {
+        style: {
+          border: "2px solid #000",
         },
-        onError() {
-            toast.error("Error connecting account!", {
-                style: {
-                    border: "2px solid #000",
-                },
-            });
+      });
+    },
+    onError() {
+      toast.error("Error connecting account!", {
+        style: {
+          border: "2px solid #000",
         },
-    });
+      });
+    },
+  });
 
   // const [clicked, setClicked] = useState(false);
 
@@ -127,14 +130,14 @@ const Navbar = () => {
           <div className="flex flex-shrink-0 items-center">
             <img
               className="block h-8 w-auto lg:hidden"
-              src="https://img.icons8.com/ultraviolet/512/duolingo-logo.png"
+              src={logo}
               alt="Your Company"
             />
-            <img
+            {/* <img
               className="hidden h-8 w-auto lg:block"
               src="https://img.icons8.com/ultraviolet/512/duolingo-logo.png"
               alt="Your Company"
-            />
+            /> */}
           </div>
           <div className="flex flex-1 items-stretch md:items-center justify-start">
             <div className="hidden sm:ml-6 sm:block">
@@ -197,26 +200,28 @@ const Navbar = () => {
 
             {/* <!-- Profile dropdown --> */}
             <div className="relative ml-3">
-              <div>
-                <button
-                  type="button"
-                  className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  onMouseEnter={handleMouse}
-                  onMouseLeave={mouseOut}
-                >
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                </button>
-              </div>
+              {isConnected ? (
+                <div>
+                  <div>
+                    <button
+                      type="button"
+                      className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                      id="user-menu-button"
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                      onMouseEnter={handleMouse}
+                      onMouseLeave={mouseOut}
+                    >
+                      <span className="sr-only">Open user menu</span>
+                      <img
+                        className="h-8 w-8 rounded-full"
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt=""
+                      />
+                    </button>
+                  </div>
 
-              {/* <!--
+                  {/* /* <!--
             Dropdown menu, show/hide based on menu state.
 
             Entering: "transition ease-out duration-100"
@@ -225,38 +230,37 @@ const Navbar = () => {
             Leaving: "transition ease-in duration-75"
               From: "transform opacity-100 scale-100"
               To: "transform opacity-0 scale-95"
-          --> */}
-            {isConnected?
-              <div
-                onMouseEnter={handleMouse}
-                onMouseLeave={mouseOut}
-                className="absolute hidden bg-[#862626] p-1 right-0 z-10 w-48 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                id="pclick"
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="user-menu-button"
-                tabIndex="-1"
-              >
-                {/* <!-- Active: "bg-gray-100", Not Active: "" --> */}
-                <a
-                  href="/"
-                  className="block px-4 py-2 text-sm text-gray-300 hover:bg-[#6b2828]"
-                  role="menuitem"
-                  tabIndex="-1"
-                  id="user-menu-item-0"
-                >
-                  {address.slice(0,8)+"..."+address.slice(-5)}
-                </a>
-                <a
-                  href="/"
-                  className="block px-4 py-2 text-sm text-gray-300 hover:bg-[#6b2828]"
-                  role="menuitem"
-                  tabIndex="-1"
-                  id="user-menu-item-1"
-                >
-                  Your Profile
-                </a>
-                {/* <a
+                --> */}
+                  <div
+                    onMouseEnter={handleMouse}
+                    onMouseLeave={mouseOut}
+                    className="absolute hidden bg-[#862626] p-1 right-0 z-10 w-48 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    id="pclick"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="user-menu-button"
+                    tabIndex="-1"
+                  >
+                    {/* <!-- Active: "bg-gray-100", Not Active: "" --> */}
+                    <a
+                      href="/"
+                      className="block px-4 py-2 text-sm text-gray-300 hover:bg-[#6b2828]"
+                      role="menuitem"
+                      tabIndex="-1"
+                      id="user-menu-item-0"
+                    >
+                      {address.slice(0, 8) + "..." + address.slice(-5)}
+                    </a>
+                    <a
+                      href="/"
+                      className="block px-4 py-2 text-sm text-gray-300 hover:bg-[#6b2828]"
+                      role="menuitem"
+                      tabIndex="-1"
+                      id="user-menu-item-1"
+                    >
+                      Your Profile
+                    </a>
+                    {/* <a
                   href="/"
                   className="block px-4 py-2 text-sm text-gray-300 hover:bg-[#6b2828]"
                   role="menuitem"
@@ -265,8 +269,17 @@ const Navbar = () => {
                 >
                   Sign out
                 </a> */}
-              </div>:<div className="">Connect Button</div>
-            }</div>
+                  </div>
+                </div>
+              ) : (
+                <div
+                  className=" p-2 rounded bg-gray-400 cursor-pointer"
+                  onClick={() => connect()}
+                >
+                  Connect Button
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
